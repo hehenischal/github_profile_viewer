@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Signed Out &bull; GitHub Profile Viewer{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center pt-4 pb-5">
+    <div class="col-sm-10 col-md-6 col-lg-5 text-center">
+        <div class="gh-card p-5">
+            <a href="{% url 'search' %}" title="Back to home">
+                <img src="{% static 'images/logo.webp' %}" alt="GitHub Logo" class="gh-auth-logo mb-3">
+            </a>
+            <i class="bi bi-check2-circle text-success display-4 mb-3 d-block"></i>
+            <h3 class="fw-bold mb-2">You have been signed out</h3>
+            <p class="text-secondary small mb-4">
+                Thank you for using GitHub Profile Viewer. You can sign back in or continue searching anonymously.
+            </p>
+            <div class="d-flex justify-content-center gap-2">
+                <a href="{% url 'login' %}" class="btn gh-btn-primary px-4">
+                    Sign in again
+                </a>
+                <a href="{% url 'search' %}" class="btn gh-btn-secondary px-4">
+                    Search Profiles
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

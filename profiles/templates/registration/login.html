@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Sign in to GitHub Profile Viewer{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center pt-3 pb-5">
+    <div class="col-sm-10 col-md-6 col-lg-5 col-xl-4">
+
+        <!-- Logo & Header -->
+        <div class="text-center mb-4">
+            <a href="{% url 'search' %}" title="Back to home">
+                <img src="{% static 'images/logo.webp' %}" alt="GitHub Logo" class="gh-auth-logo mb-3">
+            </a>
+            <h3 class="fw-semibold">Sign in to GitHub Profile Viewer</h3>
+        </div>
+
+        <!-- Login Card -->
+        <div class="gh-card p-4 mb-3">
+            {% if form.errors %}
+                <div class="alert alert-danger py-2 small mb-3">
+                    <i class="bi bi-exclamation-circle me-1"></i> Incorrect username or password.
+                </div>
+            {% endif %}
+
+            <form method="POST" action="{% url 'login' %}">
+                {% csrf_token %}
+                <input type="hidden" name="next" value="{{ next }}">
+
+                <div class="mb-3">
+                    <label for="id_username" class="form-label small fw-medium text-light-emphasis">Username</label>
+                    <input type="text"
+                           name="username"
+                           id="id_username"
+                           class="form-control gh-input"
+                           autocomplete="username"
+                           required
+                           autofocus>
+                </div>
+
+                <div class="mb-4">
+                    <label for="id_password" class="form-label small fw-medium text-light-emphasis">Password</label>
+                    <input type="password"
+                           name="password"
+                           id="id_password"
+                           class="form-control gh-input"
+                           autocomplete="current-password"
+                           required>
+                </div>
+
+                <button type="submit" class="btn gh-btn-primary w-100 py-2 fw-semibold">
+                    Sign in
+                </button>
+            </form>
+        </div>
+
+        <!-- Signup Prompt -->
+        <div class="gh-card p-3 text-center small">
+            <span class="text-secondary">New here?</span>
+            <a href="{% url 'signup' %}" class="gh-link ms-1 fw-medium">Create an account</a>.
+        </div>
+
+    </div>
+</div>
+{% endblock %}

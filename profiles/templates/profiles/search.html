@@ -1,0 +1,222 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    {% if profile %}{{ profile.name|default:profile.username }} (@{{ profile.username }}) &bull; {% endif %}GitHub Profile Viewer
+{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-10 col-xl-9">
+
+        <!-- Search Header -->
+        <div class="text-center mb-4">
+            <div class="gh-hero-logo-wrapper mb-3">
+                <img src="{% static 'images/logo.webp' %}" alt="GitHub Logo" class="gh-hero-logo">
+            </div>
+            <h2 class="fw-bold mb-1">GitHub Profile Viewer</h2>
+            <p class="text-secondary small">
+                Search public GitHub accounts, view updated repositories, and bookmark profiles.
+            </p>
+        </div>
+
+        <!-- Search Form Card (GET request with field 'q') -->
+        <div class="gh-card mb-4 p-3 p-md-4">
+            <form method="GET" action="{% url 'search' %}">
+                <div class="input-group input-group-lg">
+                    <span class="input-group-text bg-transparent border-secondary text-secondary">
+                        <i class="bi bi-search"></i>
+                    </span>
+                    <input type="text"
+                           name="q"
+                           class="form-control gh-input border-start-0"
+                           placeholder="Enter GitHub username (e.g. torvalds, octocat)..."
+                           value="{{ query }}"
+                           autocomplete="off"
+                           spellcheck="false"
+                           required>
+                    <button class="btn gh-btn-primary px-4 fw-semibold" type="submit">
+                        Search
+                    </button>
+                </div>
+            </form>
+
+            <!-- Quick suggestion chips -->
+            <div class="d-flex flex-wrap align-items-center gap-2 mt-3 pt-2 border-top border-secondary-subtle">
+                <span class="text-secondary small me-1">Try:</span>
+                <a href="{% url 'search' %}?q=torvalds" class="gh-chip">
+                    <i class="bi bi-person-fill"></i> torvalds
+                </a>
+                <a href="{% url 'search' %}?q=octocat" class="gh-chip">
+                    <i class="bi bi-person-fill"></i> octocat
+                </a>
+                <a href="{% url 'search' %}?q=django" class="gh-chip">
+                    <i class="bi bi-building"></i> django
+                </a>
+                <a href="{% url 'search' %}?q=python" class="gh-chip">
+                    <i class="bi bi-building"></i> python
+                </a>
+                <a href="{% url 'search' %}?q=kushal-kc15" class="gh-chip">
+                    <i class="bi bi-person-fill"></i> kushal
+                </a>
+            </div>
+        </div>
+
+        {% if profile %}
+        <!-- GitHub Profile Card -->
+        <div class="gh-card mb-4 p-4">
+            <div class="d-flex flex-column flex-md-row align-items-center align-items-md-start gap-4">
+
+                <!-- Avatar -->
+                <div class="position-relative text-center">
+                    <img src="{{ profile.avatar_url }}"
+                         class="rounded-circle gh-avatar"
+                         width="128"
+                         height="128"
+                         alt="{{ profile.username }}'s avatar">
+                </div>
+
+                <!-- Profile Meta -->
+                <div class="flex-grow-1 text-center text-md-start">
+                    <div class="d-flex flex-column flex-sm-row align-items-center align-items-md-start justify-content-between gap-2 mb-2">
+                        <div>
+                            <h3 class="fw-bold mb-0 text-light">
+                                {{ profile.name|default:profile.username }}
+                            </h3>
+                            <a href="{{ profile.html_url }}"
+                               target="_blank"
+                               rel="noopener noreferrer"
+                               class="gh-link fs-6 fw-medium">
+                                @{{ profile.username }} <i class="bi bi-box-arrow-up-right small"></i>
+                            </a>
+                        </div>
+
+                        <!-- Bookmark Action / Status Badge -->
+                        <div>
+                            {% if user.is_authenticated %}
+                                {% if is_bookmarked %}
+                                    <!-- Bonus Requirement: Saved Badge -->
+                                    <span class="gh-badge-saved">
+                                        <i class="bi bi-bookmark-check-fill"></i> Saved
+                                    </span>
+                                {% else %}
+                                    <form method="POST" action="{% url 'bookmark' profile.username %}" class="d-inline m-0">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn btn-sm gh-btn-primary d-inline-flex align-items-center gap-1">
+                                            <i class="bi bi-bookmark-plus"></i> Bookmark Profile
+                                        </button>
+                                    </form>
+                                {% endif %}
+                            {% else %}
+                                <a href="{% url 'login' %}?next={{ request.get_full_path }}"
+                                   class="btn btn-sm gh-btn-secondary d-inline-flex align-items-center gap-1">
+                                    <i class="bi bi-box-arrow-in-right"></i> Sign in to bookmark
+                                </a>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <!-- Bio -->
+                    <p class="text-light-emphasis my-3" style="max-width: 650px;">
+                        {% if profile.bio %}
+                            {{ profile.bio }}
+                        {% else %}
+                            <span class="text-secondary fst-italic">No bio provided.</span>
+                        {% endif %}
+                    </p>
+
+                    <!-- Stats Row -->
+                    <div class="d-flex flex-wrap justify-content-center justify-content-md-start gap-4 pt-2 border-top border-secondary-subtle">
+                        <div class="gh-stat-box">
+                            <i class="bi bi-people text-secondary fs-5"></i>
+                            <span><strong>{{ profile.followers }}</strong> followers</span>
+                        </div>
+                        <div class="gh-stat-box">
+                            <i class="bi bi-journal-code text-secondary fs-5"></i>
+                            <span><strong>{{ profile.public_repos }}</strong> public repositories</span>
+                        </div>
+                        <div class="gh-stat-box">
+                            <a href="{{ profile.html_url }}" target="_blank" rel="noopener noreferrer" class="gh-link d-inline-flex align-items-center gap-1">
+                                <i class="bi bi-github"></i> View on GitHub
+                            </a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- Repositories Header -->
+        <div class="d-flex align-items-center justify-content-between mb-3">
+            <h5 class="fw-bold m-0 d-flex align-items-center gap-2">
+                <i class="bi bi-journals text-primary"></i> 10 Most Recently Updated Repositories
+            </h5>
+            <span class="gh-badge-pill">{{ repos|length }} repos shown</span>
+        </div>
+
+        <!-- Repositories Grid -->
+        <div class="row g-3 mb-5">
+            {% for repo in repos %}
+                <div class="col-md-6">
+                    <div class="gh-repo-card">
+                        <div class="d-flex align-items-start justify-content-between gap-2 mb-2">
+                            <a href="{{ repo.html_url }}"
+                               target="_blank"
+                               rel="noopener noreferrer"
+                               class="gh-repo-title">
+                                <i class="bi bi-journal-text me-1"></i>{{ repo.name }}
+                            </a>
+                            <span class="gh-badge-pill">Public</span>
+                        </div>
+
+                        <p class="gh-repo-desc">
+                            {% if repo.description %}
+                                {{ repo.description|truncatechars:120 }}
+                            {% else %}
+                                <span class="fst-italic opacity-75">No description provided.</span>
+                            {% endif %}
+                        </p>
+
+                        <div class="gh-repo-meta mt-auto pt-2 border-top border-secondary-subtle">
+                            <span class="d-flex align-items-center gap-1">
+                                {% with lang=repo.language|lower %}
+                                    <span class="lang-dot {% if lang == 'python' %}lang-python{% elif lang == 'javascript' %}lang-javascript{% elif lang == 'typescript' %}lang-typescript{% elif lang == 'html' %}lang-html{% elif lang == 'css' %}lang-css{% elif lang == 'c++' or lang == 'cpp' %}lang-cpp{% elif lang == 'c' %}lang-c{% elif lang == 'c#' %}lang-csharp{% elif lang == 'php' %}lang-php{% elif lang == 'go' %}lang-go{% elif lang == 'rust' %}lang-rust{% elif lang == 'ruby' %}lang-ruby{% elif lang == 'shell' %}lang-shell{% endif %}"></span>
+                                {% endwith %}
+                                <span>{{ repo.language|default:"n/a" }}</span>
+                            </span>
+
+                            <span class="d-flex align-items-center gap-1" title="{{ repo.stars }} stargazers">
+                                <i class="bi bi-star-fill text-warning"></i>
+                                <span>{{ repo.stars }}</span>
+                            </span>
+
+                            <a href="{{ repo.html_url }}" target="_blank" rel="noopener noreferrer" class="gh-link ms-auto" title="Open repository">
+                                <i class="bi bi-box-arrow-up-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            {% empty %}
+                <div class="col-12">
+                    <div class="gh-card p-4 text-center text-secondary">
+                        <i class="bi bi-journal-x fs-2 d-block mb-2"></i>
+                        No public repositories found for this account.
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+        {% elif not query %}
+        <!-- Welcome Hero State -->
+        <div class="gh-card p-5 text-center my-4">
+            <i class="bi bi-github text-secondary display-4 d-block mb-3"></i>
+            <h4 class="fw-bold">Ready to explore GitHub?</h4>
+            <p class="text-secondary mx-auto" style="max-width: 520px;">
+                Enter any valid GitHub username above to instantly inspect their public profile information, follower counts, and their latest repositories.
+            </p>
+        </div>
+        {% endif %}
+
+    </div>
+</div>
+{% endblock %}

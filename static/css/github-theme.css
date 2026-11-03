@@ -1,0 +1,406 @@
+/* GitHub Theme for GitHub Profile Viewer */
+:root {
+  --gh-bg: #0d1117;
+  --gh-canvas-subtle: #161b22;
+  --gh-border: #30363d;
+  --gh-border-subtle: #21262d;
+  --gh-text: #e6edf3;
+  --gh-text-muted: #848d97;
+  --gh-text-link: #4493f8;
+  --gh-btn-primary-bg: #238636;
+  --gh-btn-primary-border: #2ea043;
+  --gh-btn-primary-hover: #2ea043;
+  --gh-btn-secondary-bg: #21262d;
+  --gh-btn-secondary-border: #30363d;
+  --gh-btn-secondary-hover: #30363d;
+  --gh-btn-danger-bg: #21262d;
+  --gh-btn-danger-border: #30363d;
+  --gh-btn-danger-text: #f85149;
+  --gh-btn-danger-hover: #da3633;
+}
+
+body {
+  background-color: var(--gh-bg) !important;
+  color: var(--gh-text) !important;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji" !important;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Navbar */
+.gh-navbar {
+  background-color: #161b22 !important;
+  border-bottom: 1px solid var(--gh-border);
+  padding: 0.75rem 1rem;
+}
+
+.gh-navbar .navbar-brand {
+  color: #ffffff;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 1.15rem;
+  letter-spacing: -0.2px;
+}
+
+.gh-nav-logo {
+  height: 32px;
+  width: 32px;
+  object-fit: contain;
+  border-radius: 50%;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.gh-navbar .navbar-brand:hover .gh-nav-logo {
+  transform: scale(1.08);
+  opacity: 0.95;
+}
+
+.gh-navbar .nav-link {
+  color: #e6edf3 !important;
+  font-size: 0.95rem;
+  font-weight: 500;
+  padding: 0.4rem 0.8rem !important;
+  border-radius: 6px;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.gh-navbar .nav-link:hover {
+  background-color: #21262d;
+  color: #58a6ff !important;
+}
+
+.gh-navbar .nav-link.active {
+  color: #ffffff !important;
+  background-color: rgba(110, 118, 129, 0.2);
+}
+
+/* Logos across the app */
+.gh-hero-logo-wrapper {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px;
+  border-radius: 50%;
+  background: radial-gradient(circle at center, #21262d 0%, #161b22 100%);
+  border: 1px solid rgba(240, 246, 252, 0.15);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.gh-hero-logo-wrapper:hover {
+  transform: translateY(-2px);
+  border-color: #58a6ff;
+  box-shadow: 0 6px 24px rgba(31, 111, 235, 0.25);
+}
+
+.gh-hero-logo {
+  width: 64px;
+  height: 64px;
+  object-fit: contain;
+  border-radius: 50%;
+  display: block;
+}
+
+.gh-auth-logo {
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+  border-radius: 50%;
+  display: block;
+  margin: 0 auto;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  transition: transform 0.2s ease;
+}
+
+.gh-auth-logo:hover {
+  transform: scale(1.08);
+}
+
+.gh-footer-logo {
+  height: 22px;
+  width: 22px;
+  object-fit: contain;
+  border-radius: 50%;
+  opacity: 0.85;
+}
+
+/* GitHub Cards / Containers */
+.gh-card {
+  background-color: var(--gh-canvas-subtle);
+  border: 1px solid var(--gh-border);
+  border-radius: 6px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+
+.gh-card-header {
+  background-color: #21262d;
+  border-bottom: 1px solid var(--gh-border);
+  padding: 12px 16px;
+  font-weight: 600;
+  color: #e6edf3;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+
+/* Form Controls */
+.gh-input {
+  background-color: #0d1117 !important;
+  border: 1px solid var(--gh-border) !important;
+  color: #e6edf3 !important;
+  border-radius: 6px !important;
+  font-size: 0.95rem;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.gh-input:focus {
+  background-color: #0d1117 !important;
+  border-color: #1f6feb !important;
+  box-shadow: 0 0 0 3px rgba(31, 111, 235, 0.3) !important;
+  color: #ffffff !important;
+}
+
+.gh-input::placeholder {
+  color: #6e7681 !important;
+}
+
+/* GitHub Buttons */
+.gh-btn-primary {
+  background-color: #238636 !important;
+  border: 1px solid rgba(240, 246, 252, 0.1) !important;
+  color: #ffffff !important;
+  font-weight: 500;
+  border-radius: 6px;
+  padding: 6px 14px;
+  transition: background-color 0.15s ease;
+}
+
+.gh-btn-primary:hover {
+  background-color: #2ea043 !important;
+  color: #ffffff !important;
+}
+
+.gh-btn-secondary {
+  background-color: #21262d !important;
+  border: 1px solid var(--gh-border) !important;
+  color: #c9d1d9 !important;
+  font-weight: 500;
+  border-radius: 6px;
+  padding: 6px 14px;
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.gh-btn-secondary:hover {
+  background-color: #30363d !important;
+  border-color: #8b949e !important;
+  color: #f0f6fc !important;
+}
+
+.gh-btn-danger {
+  background-color: #21262d !important;
+  border: 1px solid var(--gh-border) !important;
+  color: #f85149 !important;
+  font-weight: 500;
+  border-radius: 6px;
+  padding: 5px 12px;
+  transition: all 0.15s ease;
+}
+
+.gh-btn-danger:hover {
+  background-color: #da3633 !important;
+  border-color: #da3633 !important;
+  color: #ffffff !important;
+}
+
+/* Badges and tags */
+.gh-badge-pill {
+  display: inline-block;
+  padding: 2px 9px;
+  font-size: 12px;
+  font-weight: 500;
+  border-radius: 12px;
+  border: 1px solid var(--gh-border);
+  color: var(--gh-text-muted);
+  background-color: rgba(110, 118, 129, 0.1);
+}
+
+.gh-badge-saved {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 10px;
+  font-size: 13px;
+  font-weight: 600;
+  border-radius: 20px;
+  border: 1px solid #238636;
+  color: #3fb950;
+  background-color: rgba(46, 160, 67, 0.15);
+}
+
+.gh-badge-count {
+  display: inline-block;
+  padding: 1px 7px;
+  font-size: 12px;
+  font-weight: 600;
+  border-radius: 10px;
+  background-color: rgba(110, 118, 129, 0.3);
+  color: #e6edf3;
+}
+
+/* Alerts */
+.alert-error,
+.alert-danger {
+  background-color: rgba(248, 81, 73, 0.1) !important;
+  border: 1px solid rgba(248, 81, 73, 0.4) !important;
+  color: #f85149 !important;
+}
+
+.alert-success {
+  background-color: rgba(46, 160, 67, 0.1) !important;
+  border: 1px solid rgba(46, 160, 67, 0.4) !important;
+  color: #3fb950 !important;
+}
+
+.alert-info {
+  background-color: rgba(56, 139, 253, 0.1) !important;
+  border: 1px solid rgba(56, 139, 253, 0.4) !important;
+  color: #58a6ff !important;
+}
+
+.alert-warning {
+  background-color: rgba(210, 153, 34, 0.1) !important;
+  border: 1px solid rgba(210, 153, 34, 0.4) !important;
+  color: #d29922 !important;
+}
+
+.btn-close-white {
+  filter: invert(1) grayscale(100%) brightness(200%);
+}
+
+/* Links */
+a.gh-link {
+  color: var(--gh-text-link);
+  text-decoration: none;
+}
+
+a.gh-link:hover {
+  text-decoration: underline;
+}
+
+/* Profile details */
+.gh-avatar {
+  border: 2px solid var(--gh-border);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.gh-stat-box {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.95rem;
+  color: var(--gh-text-muted);
+}
+
+.gh-stat-box strong {
+  color: #e6edf3;
+}
+
+/* Repo cards */
+.gh-repo-card {
+  background-color: var(--gh-canvas-subtle);
+  border: 1px solid var(--gh-border);
+  border-radius: 6px;
+  padding: 16px;
+  transition: border-color 0.15s ease, transform 0.15s ease;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.gh-repo-card:hover {
+  border-color: #58a6ff;
+}
+
+.gh-repo-title {
+  color: var(--gh-text-link);
+  font-weight: 600;
+  font-size: 1rem;
+  text-decoration: none;
+  word-break: break-word;
+}
+
+.gh-repo-title:hover {
+  text-decoration: underline;
+}
+
+.gh-repo-desc {
+  font-size: 0.875rem;
+  color: var(--gh-text-muted);
+  flex-grow: 1;
+  margin-top: 6px;
+  margin-bottom: 12px;
+}
+
+.gh-repo-meta {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 0.8rem;
+  color: var(--gh-text-muted);
+}
+
+/* Language dot colors */
+.lang-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  display: inline-block;
+  background-color: #8b949e;
+}
+.lang-python { background-color: #3572A5; }
+.lang-javascript { background-color: #f1e05a; }
+.lang-typescript { background-color: #3178c6; }
+.lang-html { background-color: #e34c26; }
+.lang-css { background-color: #563d7c; }
+.lang-java { background-color: #b07219; }
+.lang-c { background-color: #555555; }
+.lang-cpp { background-color: #f34b7d; }
+.lang-csharp { background-color: #178600; }
+.lang-php { background-color: #4F5D95; }
+.lang-go { background-color: #00ADD8; }
+.lang-rust { background-color: #dea584; }
+.lang-ruby { background-color: #701516; }
+.lang-shell { background-color: #89e051; }
+
+/* Quick suggestions chips */
+.gh-chip {
+  background-color: #21262d;
+  color: #c9d1d9;
+  border: 1px solid var(--gh-border);
+  padding: 3px 10px;
+  border-radius: 16px;
+  font-size: 0.825rem;
+  text-decoration: none;
+  transition: all 0.15s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.gh-chip:hover {
+  background-color: #30363d;
+  border-color: #58a6ff;
+  color: #58a6ff;
+  text-decoration: none;
+}
+
+/* Footer */
+footer.gh-footer {
+  border-top: 1px solid var(--gh-border);
+  background-color: #161b22;
+  margin-top: auto;
+  padding: 1.5rem 0;
+  color: var(--gh-text-muted);
+}
